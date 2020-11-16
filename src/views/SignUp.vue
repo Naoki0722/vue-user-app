@@ -4,14 +4,13 @@
     <div id="login">
       <div class="content">
         <h2>新規登録フォーム</h2>
-        <input type="text" placeholder="name">
-        <input type="text" placeholder="email">
-        <input type="text" placeholder="tel">
-        <input type="text" placeholder="user-id">
-        <input type="text" placeholder="SNSアカウント">
-        <input type="text" placeholder="紹介者名">
-        <input type="password" placeholder="password">
-        <button>新規登録するよ</button>
+        <input type="text" placeholder="name" v-model="name">
+        <input type="text" placeholder="email" v-model="email">
+        <input type="text" placeholder="tel" v-model="tell">
+        <input type="text" placeholder="user-id" v-model="user_id">
+        <input type="text" placeholder="SNSアカウント" v-model="account">
+        <input type="password" placeholder="password" v-model="password">
+        <button @click="auth">新規登録するよ</button>
       </div>
     </div>
   </div>
@@ -19,11 +18,43 @@
 
 <script>
 import Header from '../components/Header.vue'
+import axios from 'axios'
 export default {
+  data() {
+    return {
+      name: "",
+      email: "",
+      tell: "",
+      user_id: "",
+      account: "",
+      password: ""
+    };
+  },
   components: {
     Header
+  },
+  methods: {
+    auth() {
+      axios
+        .post('http://localhost:8000/api/register', {
+          name: this.name,
+          email: this.email,
+          tell: this.tell,
+          user_id: this.user_id,
+          account: this.account,
+          password: this.password
+        })
+        .then(response => {
+          console.log(response);
+          this.$router.replace('/');
+        })
+        .catch(error => {
+          console.log(error);
+          alert.error;
+        });
+    }
   }
-}
+};
 </script>
 
 <style scoped>

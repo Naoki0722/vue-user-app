@@ -5,7 +5,7 @@
         <a href="#"><img src="../assets/header-logo.png"></a>
       </div>
       <div class="header-link">
-        <p @click="$router.push('/')">ログアウト</p>
+        <p @click="auth">ログアウト</p>
       </div>
     </div>
     <div class="content">
@@ -22,8 +22,18 @@
 <script>
 import Member from "../components/Member"
 export default {
+  data() {
+    return {
+      mydata: this.$store.state.user.name
+    };
+  },
   components: {
     Member
+  },
+  methods: {
+    auth() {
+      this.$store.dispatch('logout');
+    }
   }
 }
 </script>

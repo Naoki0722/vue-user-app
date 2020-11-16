@@ -18,25 +18,32 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      mydata: "松崎",
-      tables: [
-        {
-          id: 1,
-          name: "佐藤"
-        },
-        {
-          id: 2,
-          name: "田中"
-        },
-        {
-          id: 3,
-          name: "中野"
-        }
-      ]
+      tables: [],
+      // path: true,
     };
+  },
+  created() {
+    this.getUsers();
+  },
+  methods: {
+    async getUsers() {
+      let data = [];
+      await axios
+        .get('http://localhost:8000/api/user/all')
+        .then((response) => {
+          data.push(response.data);
+          // console.log(response);
+          console.log(data);
+      });
+        
+      // }
+      this.tables = data[0].data;
+      console.log(this.tables);
+    }
   }
 };
 </script>

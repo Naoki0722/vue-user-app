@@ -4,9 +4,9 @@
     <div id="login">
       <div class="content">
         <h2>ログイン</h2>
-        <input type="text" placeholder="email">
-        <input type="password" placeholder="password">
-        <button @click="$router.push('/home')">ログイン</button>
+        <input type="text" placeholder="email" v-model="email">
+        <input type="password" placeholder="password" v-model="password">
+        <button @click="auth">ログイン</button>
       </div>
     </div>
   </div>
@@ -15,8 +15,22 @@
 <script>
 import Header from '../components/Header'
 export default {
+  data() {
+    return {
+      email: "",
+      password: ""
+    };
+  },
   components: {
     Header
+  },
+  methods: {
+    auth() {
+      this.$store.dispatch('login', {
+        email: this.email,
+        password: this.password
+      });
+    }
   }
 }
 </script>

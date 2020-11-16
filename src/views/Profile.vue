@@ -1,6 +1,6 @@
 <template>
   <div class="detail">
-    <Member :id = "id"></Member>
+    <!-- <Member :id = "id"></Member> -->
     <img src="../assets/icon.png">
     <table>
       <tr>
@@ -10,8 +10,8 @@
       </tr>
       <tr>
         <th>ユーザーID</th>
-        <td v-if="isActive">{{lists.id}}</td>
-        <td v-else><input type="text" v-model="lists.id"></td>
+        <td v-if="isActive">{{lists.user_id}}</td>
+        <td v-else><input type="text" v-model="lists.user_id"></td>
       </tr>
       <tr>
         <th>電話番号</th>
@@ -20,13 +20,12 @@
       </tr>
       <tr>
         <th>メールアドレス</th>
-        <td v-if="isActive">{{lists.mail}}</td>
-        <td v-else><input type="text" v-model="lists.mail"></td>
+        <td>{{lists.email}}</td>
       </tr>
       <tr>
         <th>SNSアカウント名</th>
-        <td v-if="isActive">{{lists.sns}}</td>
-        <td v-else><input type="text" v-model="lists.sns"></td>
+        <td v-if="isActive">{{lists.account}}</td>
+        <td v-else><input type="text" v-model="lists.account"></td>
       </tr>
     </table>
     <button @click="$router.push('/home')">一覧へ戻る</button>
@@ -37,26 +36,54 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
       isActive: true,
       lists: {
-          name: "松ざき",
-          id: "matsunao",
-          tell: "000-0000-0000",
-          mail: "test@test.com",
-          sns: "http://www.test.co.jp"
+          name: this.$store.state.user.name,
+          user_id: this.$store.state.user.user_id,
+          tell: this.$store.state.user.tell,
+          email: this.$store.state.user.email,
+          account: this.$store.state.user.account
       },
     };
   },
   methods: {
     edit() {
-      this.isActive = !this.isActive
+      if(!this.isActive) {
+        axios
+          .put('http://localhost:8000/api/user', {
+            name: this.lists.name,
+            user_id: this.lists.user_id,
+            tell: this.lists.tell,
+            email: this.$store.state.user.email,
+            account: this.lists.account
+          })
+          .then((response) => {
+            this.$store.dispatch('changeUser', {
+            name: this.lists.name,
+            user_id: this.lists.user_id,
+            tell: this.lists.tell,
+            email: this.lists.email,
+            account: this.lists.account
+            });
+            console.log(response);
+          });
+      }
+      this.isActive = !this.isActive;
     },
     remove() {
+      axios
+        .delete('http://localhost:8000/api/user', {
+            email: this.$store.state.user.email,
+        })
+        .then((response) => {
+          console.log(response);
       // データベースから削除した後にページを飛ばす
-      this.$router.push({name: 'Login'});
+      // this.$router.replace('/');
+        });
     }
   }
 };

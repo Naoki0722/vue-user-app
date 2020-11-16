@@ -1,27 +1,26 @@
 <template>
   <div class="detail">
-    <Member :id = "id"></Member>
     <img src="../assets/icon.png">
     <table>
       <tr>
         <th>名前</th>
-        <td>{{lists.name}}</td>
+        <td>{{tables.name}}</td>
       </tr>
       <tr>
         <th>ユーザーID</th>
-        <td>{{lists.id}}</td>
+        <td>{{tables.id}}</td>
       </tr>
       <tr>
         <th>電話番号</th>
-        <td>{{lists.tell}}</td>
+        <td>{{tables.tell}}</td>
       </tr>
       <tr>
         <th>メールアドレス</th>
-        <td>{{lists.mail}}</td>
+        <td>{{tables.email}}</td>
       </tr>
       <tr>
         <th>SNSアカウント名</th>
-        <td>{{lists.sns}}</td>
+        <td>{{tables.account}}</td>
       </tr>
     </table>
     <button @click="$router.push('/home')">一覧へ戻る</button>
@@ -29,17 +28,38 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
-      lists: {
-          name: "佐藤",
-          id: "satou",
-          tell: "000-0000-0000",
-          mail: "test@test.com",
-          sns: "http://www.test.co.jp"
-      },
+      tables: [],
     };
+  },
+  created() {
+    this.getUsers();
+  },
+  methods: {
+    async getUsers() {
+      let data = [];
+      let tables =await axios.get('http://localhost:8000/api/user/all');
+      for (let i = 0; i < tables.data.data.length; i++) {
+        await axios
+          .get('http://localhost:8000/api/user/all')
+          .then((response) => {
+            if(this.$route.name === 'Detail') {
+            let url = this.$route.params.id;
+            let id = response.data.data[i].id;
+              if(id == url) {
+                data.push(response.data.data[i]);
+                console.log(data);
+              }
+            }
+          });
+        
+      }        
+      this.tables = data[0];
+      console.log(this.tables);
+    }
   }
 };
 </script>
