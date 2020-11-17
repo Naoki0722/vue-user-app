@@ -12,6 +12,7 @@
           <v-text-field prepend-icon="mdi-cellphone" label="tell" v-model="tell" />
           <v-text-field prepend-icon="mdi-account-circle" label="user_id" v-model="user_id" />
           <v-text-field prepend-icon="mdi-twitter" label="SNSアカウント" v-model="account" />
+          <v-select prepend-icon="mdi-twitter" label="上司名" v-model="introducer" :items="users" item-text="name" item-value="id"/>
           <v-text-field prepend-icon= "mdi-lock" type="password" label="パスワード" v-model="password"/>
           <v-card-actions>
             <v-btn class="success" @click="auth">ログイン</v-btn>
@@ -33,13 +34,29 @@ export default {
       tell: "",
       user_id: "",
       account: "",
+      introducer: "",
+      users: [],
       password: ""
     };
   },
   components: {
     Header
   },
+  created() {
+    this.getUsers();
+  },
   methods: {
+    async getUsers() {
+      let data = [];
+      await axios
+        .get('http://localhost:8000/api/user/all')
+        .then((response) => {
+          data.push(response.data);
+          // console.log(response);
+          console.log(data);
+      });
+      this.users = data[0].data;
+    },
     auth() {
       axios
         .post('http://localhost:8000/api/register', {
@@ -48,7 +65,8 @@ export default {
           tell: this.tell,
           user_id: this.user_id,
           account: this.account,
-          password: this.password
+          introducer: this.introducer,
+          password: this.password,         
         })
         .then(response => {
           console.log(response);
@@ -58,7 +76,7 @@ export default {
           console.log(error);
           alert.error;
         });
-    }
+    },
   }
 };
 </script>

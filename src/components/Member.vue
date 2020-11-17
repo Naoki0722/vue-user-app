@@ -14,6 +14,7 @@
         </td>
       </tr>
     </table>
+
   </div>
 </template>
 
@@ -33,14 +34,14 @@ export default {
     async getUsers() {
       let data = [];
       await axios
-        .get('http://localhost:8000/api/user/all')
+        .get('http://localhost:8000/api/user/person', {
+          id: this.$store.state.user.id
+        })
         .then((response) => {
           data.push(response.data);
           // console.log(response);
           console.log(data);
       });
-        
-      // }
       this.tables = data[0].data;
       console.log(this.tables);
     }
