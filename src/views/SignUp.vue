@@ -1,18 +1,24 @@
 <template>
   <div>
     <Header />
-    <div id="login">
-      <div class="content">
-        <h2>新規登録フォーム</h2>
-        <input type="text" placeholder="name" v-model="name">
-        <input type="text" placeholder="email" v-model="email">
-        <input type="text" placeholder="tel" v-model="tell">
-        <input type="text" placeholder="user-id" v-model="user_id">
-        <input type="text" placeholder="SNSアカウント" v-model="account">
-        <input type="password" placeholder="password" v-model="password">
-        <button @click="auth">新規登録するよ</button>
-      </div>
-    </div>
+    <v-card elevation="1"  width="40%" class="mx-auto mt-12">
+      <v-card-title>
+        <h1 class="display-1">新規登録フォーム</h1>
+      </v-card-title>
+      <v-card-text>
+        <v-form>
+          <v-text-field prepend-icon="mdi-account-circle" label="name" v-model="name" />
+          <v-text-field prepend-icon="mdi-email" label="email" v-model="email" />
+          <v-text-field prepend-icon="mdi-cellphone" label="tell" v-model="tell" />
+          <v-text-field prepend-icon="mdi-account-circle" label="user_id" v-model="user_id" />
+          <v-text-field prepend-icon="mdi-twitter" label="SNSアカウント" v-model="account" />
+          <v-text-field prepend-icon= "mdi-lock" type="password" label="パスワード" v-model="password"/>
+          <v-card-actions>
+            <v-btn class="success" @click="auth">ログイン</v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 

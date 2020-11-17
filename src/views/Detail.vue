@@ -30,6 +30,7 @@
 <script>
 import axios from 'axios'
 export default {
+  props: ["id"],
   data() {
     return {
       tables: [],
@@ -47,9 +48,8 @@ export default {
           .get('http://localhost:8000/api/user/all')
           .then((response) => {
             if(this.$route.name === 'Detail') {
-            let url = this.$route.params.id;
             let id = response.data.data[i].id;
-              if(id == url) {
+              if(id == this.id) {
                 data.push(response.data.data[i]);
                 console.log(data);
               }

@@ -3,12 +3,35 @@
     <div class="header-logo">
       <a href="#"><img src="../assets/header-logo.png"></a>
     </div>
-    <div class="header-link">
+    <!-- <div class="header-link">
       <p @click="$router.push('/')">ログイン</p>
       <p @click="$router.push('/signup')">新規登録</p>
+    </div> -->
+    <div class="header-link">
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            dark
+            v-bind="attrs"
+            v-on="on"
+          >
+            MENU
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-list-item-title @click="$router.push('/')">ログイン</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title @click="$router.push('/signup')">新規登録</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </div>
   </div>
 </template>
+
 
 <style scoped>
 #header {

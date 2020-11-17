@@ -1,14 +1,20 @@
 <template>
   <div>
     <Header />
-    <div id="login">
-      <div class="content">
-        <h2>ログイン</h2>
-        <input type="text" placeholder="email" v-model="email">
-        <input type="password" placeholder="password" v-model="password">
-        <button @click="auth">ログイン</button>
-      </div>
-    </div>
+    <v-card elevation="1"  width="40%" class="mx-auto mt-12">
+      <v-card-title>
+        <h1 class="display-1">ログイン</h1>
+      </v-card-title>
+      <v-card-text>
+        <v-form>
+          <v-text-field prepend-icon="mdi-account-circle" label="メールアドレス" v-model="email" />
+          <v-text-field prepend-icon= "mdi-lock" type="password" label="パスワード" v-model="password"/>
+          <v-card-actions>
+            <v-btn class="success" @click="auth">ログイン</v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card-text>
+    </v-card>
   </div>
 </template>
 

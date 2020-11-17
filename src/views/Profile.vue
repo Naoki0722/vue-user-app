@@ -77,13 +77,26 @@ export default {
     remove() {
       axios
         .delete('http://localhost:8000/api/user', {
-            email: this.$store.state.user.email,
+          data: {
+          email: this.$store.state.user.email,
+          },
         })
         .then((response) => {
           console.log(response);
+
+      // データベースから削除した後にページを飛ばす
+          // this.$router.replace('/');
+        });
+      this.$store.dispatch('logout');
+      // axios
+      //   .delete('http://localhost:8000/api/user', {
+      //       email: this.$store.state.user.email,
+      //   })
+      //   .then((response) => {
+      //     console.log(response);
       // データベースから削除した後にページを飛ばす
       // this.$router.replace('/');
-        });
+      //   });
     }
   }
 };
