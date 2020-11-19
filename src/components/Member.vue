@@ -34,18 +34,17 @@ export default {
     async getUsers() {
       let data = [];
       await axios
-        .get('http://localhost:8000/api/user/person', {
-          id: this.$store.state.user.id
-        })
+        .get(
+          "http://localhost:8000/api/user/person?id=" +
+            this.$store.state.user.id
+        )
         .then((response) => {
           data.push(response.data);
-          // console.log(response);
-          console.log(data);
-      });
-      this.tables = data[0].data;
-      console.log(this.tables);
-    }
-  }
+          this.tables = data[0].data;
+          console.log(this.tables);
+        });
+    },
+  },
 };
 </script>
 
@@ -53,15 +52,23 @@ export default {
 .member-section {
   margin: 3% 5%;
   font-size: 20px;
-  width: 50%;
+  width: 60%;
 }
 
 table th,
 table td {
-  border: 1px solid black;
   padding: 10px;
   width: 20%;
   text-align: center;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+}
+
+table {
+  width: 80%;
+  margin: 0 auto;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
 }
 
 .member-section button {

@@ -1,13 +1,6 @@
 <template>
   <div id="home">
-    <div id="header">
-      <div class="header-logo">
-        <a href="#"><img src="../assets/header-logo.png"></a>
-      </div>
-      <div class="header-link">
-        <p @click="auth">ログアウト</p>
-      </div>
-    </div>
+    <Header :parentData="sendFlag"/>
     <div class="content">
       <div class="myprofile">
         <img src="../assets/icon.png">
@@ -21,14 +14,17 @@
 
 <script>
 import Member from "../components/Member"
+import Header from "../components/Header"
 export default {
   data() {
     return {
-      mydata: this.$store.state.user.name
+      mydata: this.$store.state.user.name,
+      sendFlag: false,
     };
   },
   components: {
-    Member
+    Member,
+    Header
   },
   methods: {
     auth() {
@@ -48,7 +44,7 @@ export default {
 #header,
 .header-logo,
 .header-link {
-  background-color: gray;
+  background-color: #64B5F6;
 }
 
 .header-logo img {
@@ -81,7 +77,8 @@ export default {
 
 .content {
   display: flex;
-  /* justify-content: space-between; */
+  width: 100%;
+  margin: 3% 0;
 }
 
 
@@ -96,33 +93,12 @@ export default {
 }
 
 .myprofile button{
+  border: 1px solid black;
+  border-radius: 10px;
   font-size: 15px;
   font-weight: bold;
   display: block;
   padding: 5px 20px;
   margin: 20px auto;
-}
-
-.member-section {
-  margin: 3% 5%;
-  font-size: 20px;
-  width: 50%;
-}
-
-table th,
-table td {
-  border: 1px solid black;
-  padding: 10px;
-  width: 20%;
-  text-align: center;
-}
-
-.member-section button {
-  font-size: 20px;
-}
-
-table th,
-table td:first-child {
-  width: 8%;
 }
 </style>

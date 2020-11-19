@@ -1,42 +1,45 @@
 <template>
-  <div class="detail">
-    <!-- <Member :id = "id"></Member> -->
-    <img src="../assets/icon.png">
-    <table>
-      <tr>
-        <th>名前</th>
-        <td v-if="isActive">{{lists.name}}</td>
-        <td v-else><input type="text" v-model="lists.name"></td>
-      </tr>
-      <tr>
-        <th>ユーザーID</th>
-        <td v-if="isActive">{{lists.user_id}}</td>
-        <td v-else><input type="text" v-model="lists.user_id"></td>
-      </tr>
-      <tr>
-        <th>電話番号</th>
-        <td v-if="isActive">{{lists.tell}}</td>
-        <td v-else><input type="text" v-model="lists.tell"></td>
-      </tr>
-      <tr>
-        <th>メールアドレス</th>
-        <td>{{lists.email}}</td>
-      </tr>
-      <tr>
-        <th>SNSアカウント名</th>
-        <td v-if="isActive">{{lists.account}}</td>
-        <td v-else><input type="text" v-model="lists.account"></td>
-      </tr>
-    </table>
-    <button @click="$router.push('/home')">一覧へ戻る</button>
-    <button v-if="isActive" @click="edit">編集</button>
-    <button v-else @click="edit">完了</button>
-    <button @click="remove">退会</button>
+  <div id="detail">
+    <Header :parentData="sendFlag"/>
+    <div class="detail">
+      <img src="../assets/icon.png">
+      <table>
+        <tr>
+          <th>名前</th>
+          <td v-if="isActive">{{lists.name}}</td>
+          <td v-else><input type="text" v-model="lists.name"></td>
+        </tr>
+        <tr>
+          <th>ユーザーID</th>
+          <td v-if="isActive">{{lists.user_id}}</td>
+          <td v-else><input type="text" v-model="lists.user_id"></td>
+        </tr>
+        <tr>
+          <th>電話番号</th>
+          <td v-if="isActive">{{lists.tell}}</td>
+          <td v-else><input type="text" v-model="lists.tell"></td>
+        </tr>
+        <tr>
+          <th>メールアドレス</th>
+          <td>{{lists.email}}</td>
+        </tr>
+        <tr>
+          <th>SNSアカウント名</th>
+          <td v-if="isActive">{{lists.account}}</td>
+          <td v-else><input type="text" v-model="lists.account"></td>
+        </tr>
+      </table>
+      <button @click="$router.push('/home')">一覧へ戻る</button>
+      <button v-if="isActive" @click="edit">編集</button>
+      <button v-else @click="edit">完了</button>
+      <button @click="remove">退会</button>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
+import Header from "../components/Header"
 export default {
   data() {
     return {
@@ -48,7 +51,11 @@ export default {
           email: this.$store.state.user.email,
           account: this.$store.state.user.account
       },
+      sendFlag: false,
     };
+  },
+  components: {
+    Header
   },
   methods: {
     edit() {
@@ -113,15 +120,25 @@ export default {
 }
 
 table {
-  width: 100%;
+  border-bottom: 1px solid black;
+  width: 80%;
+  margin: 0 auto;
 }
 
 table th {
   text-align: left;
+  width: 20%;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+
+table td {
+  width: 40%;
+  border-right: 1px solid black;
 }
 
 table th,table td {
-  border: 1px solid black;
+  border-top: 1px solid black;
   padding: 10px;
 }
 
@@ -130,6 +147,8 @@ table input {
 }
 
 button {
+  border: 1px solid black;
+  border-radius: 10px;
   display: inline-block;
   margin: 50px 10px;  
   padding: 10px 20px;

@@ -3,11 +3,9 @@
     <div class="header-logo">
       <a href="#"><img src="../assets/header-logo.png"></a>
     </div>
-    <!-- <div class="header-link">
-      <p @click="$router.push('/')">ログイン</p>
-      <p @click="$router.push('/signup')">新規登録</p>
-    </div> -->
-    <div class="header-link">
+    <!-- ログインしている時としていない時でアイコン表示を変えるように実装 -->
+    <!-- 未ログイン時 -->
+    <div class="header-link ma-4" v-if="parentData">  
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -20,18 +18,41 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item>
+          <v-list-item link>
             <v-list-item-title @click="$router.push('/')">ログイン</v-list-item-title>
           </v-list-item>
-          <v-list-item>
+          <v-list-item link>
             <v-list-item-title @click="$router.push('/signup')">新規登録</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
     </div>
+    <!-- ログイン時 -->
+    <div v-else class="header-link ma-4">
+      <v-btn
+        color="primary"
+        dark
+        @click="auth"
+      >ログアウト</v-btn>
+    </div>
   </div>
 </template>
 
+<script>
+export default {
+  props: ["parentData"],
+  data() {
+    return {
+      isActive: false,
+    };
+  },
+  methods: {
+    auth() {
+      this.$store.dispatch('logout');
+    }
+  }
+};
+</script>
 
 <style scoped>
 #header {
@@ -43,7 +64,7 @@
 #header,
 .header-logo,
 .header-link {
-  background-color: gray;
+  background-color:#64B5F6;
 }
 
 .header-logo img {

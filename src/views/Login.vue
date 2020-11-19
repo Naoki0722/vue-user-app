@@ -1,17 +1,21 @@
 <template>
   <div>
-    <Header />
+    <Header :parentData="sendFlag"/>
     <v-card elevation="1"  width="40%" class="mx-auto mt-12">
-      <v-card-title>
-        <h1 class="display-1">ログイン</h1>
-      </v-card-title>
+      <v-row justify="center">
+        <v-card-title>
+          <h1 class="display-1">ログイン</h1>
+        </v-card-title>
+      </v-row>
       <v-card-text>
         <v-form>
           <v-text-field prepend-icon="mdi-account-circle" label="メールアドレス" v-model="email" />
           <v-text-field prepend-icon= "mdi-lock" type="password" label="パスワード" v-model="password"/>
-          <v-card-actions>
-            <v-btn class="success" @click="auth">ログイン</v-btn>
-          </v-card-actions>
+          <v-row justify="center">
+            <v-card-actions>
+              <v-btn rounded v-ripple="{ center: true }" class="success" @click="auth">ログイン</v-btn>
+            </v-card-actions>
+          </v-row>
         </v-form>
       </v-card-text>
     </v-card>
@@ -24,7 +28,8 @@ export default {
   data() {
     return {
       email: "",
-      password: ""
+      password: "",
+      sendFlag: true,
     };
   },
   components: {
