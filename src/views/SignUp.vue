@@ -9,6 +9,9 @@
       </v-row>
       <v-card-text>
         <v-form>
+          
+          <!-- <v-file-input name="image" @change="fileSelected" accept="image/png, image/jpeg" /> -->
+          <input type="file" v-on:change="fileSelected">
           <v-text-field prepend-icon="mdi-account-circle" label="name" v-model="name" />
           <v-text-field prepend-icon="mdi-email" label="email" v-model="email" />
           <v-text-field prepend-icon="mdi-cellphone" label="tell" v-model="tell" />
@@ -40,7 +43,8 @@ export default {
       account: "",
       introducer: "",
       users: [],
-      password: ""
+      password: "",
+      fileInfo: ""
     };
   },
   components: {
@@ -57,11 +61,17 @@ export default {
         .then((response) => {
           data.push(response.data);
           // console.log(response);
-          console.log(data);
+          // console.log(data);
       });
       this.users = data[0].data;
     },
+    fileSelected(event) {
+      this.fileInfo = event.target.files[0];
+      console.log(event.target.files[0]);
+    },
     auth() {
+      const formData = new FormData();
+      formData.append('file',this.fileInfo);
       axios
         .post('http://localhost:8000/api/register', {
           name: this.name,
@@ -70,7 +80,9 @@ export default {
           user_id: this.user_id,
           account: this.account,
           introducer: this.introducer,
-          password: this.password,         
+          password: this.password,
+          image: this.image,
+          fileInfo: formData
         })
         .then(response => {
           console.log(response);
