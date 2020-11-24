@@ -2,7 +2,7 @@
   <div id="detail">
     <Header :parentData="sendFlag"/>
     <div class="detail">
-      <img src="../assets/icon.png">
+      <img :src="lists.image">
       <table>
         <tr>
           <th>名前</th>
@@ -33,6 +33,7 @@
       <button v-if="isActive" @click="edit">編集</button>
       <button v-else @click="edit">完了</button>
       <button @click="remove">退会</button>
+      <v-dialog v-model="dialog"></v-dialog>
     </div>
   </div>
 </template>
@@ -49,7 +50,8 @@ export default {
           user_id: this.$store.state.user.user_id,
           tell: this.$store.state.user.tell,
           email: this.$store.state.user.email,
-          account: this.$store.state.user.account
+          account: this.$store.state.user.account,
+          image: this.$store.state.user.image_path
       },
       sendFlag: false,
     };
@@ -133,7 +135,7 @@ table th {
 }
 
 table td {
-  width: 40%;
+  width: 30%;
   border-right: 1px solid black;
 }
 
@@ -143,7 +145,11 @@ table th,table td {
 }
 
 table input {
-  height: 15px;
+  height: 20px;
+  text-align: center;
+  width: 60%;
+  border: 1px solid rgb(167, 166, 166);
+  border-radius: 5px;
 }
 
 button {

@@ -2,7 +2,7 @@
   <div id="detail">
     <Header :parentData="sendFlag"/>
     <div class="detail">
-      <img src="../assets/icon.png">
+      <img :src="tables.image_path">
       <table>
         <tr>
           <th>名前</th>

@@ -1,15 +1,16 @@
 <template>
-  <div id="header">
-    <div class="header-logo">
-      <a href="#"><img src="../assets/header-logo.png"></a>
-    </div>
-    <!-- ログインしている時としていない時でアイコン表示を変えるように実装 -->
-    <!-- 未ログイン時 -->
-    <div class="header-link ma-4" v-if="parentData">  
-      <v-menu offset-y>
+  <div>
+    <v-app-bar color="deep-purple accent-4" dark>
+
+      <v-toolbar-title>
+        <v-img src="../assets/header-logo.png"   max-height="100" max-width="250"></v-img>
+      </v-toolbar-title>
+
+      <v-spacer></v-spacer>
+      <v-menu offset-y v-if="parentData">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
-            color="primary"
+            color="deep-purple accent-2"
             dark
             v-bind="attrs"
             v-on="on"
@@ -26,16 +27,14 @@
           </v-list-item>
         </v-list>
       </v-menu>
-    </div>
-    <!-- ログイン時 -->
-    <div v-else class="header-link ma-4">
-      <v-btn
-        color="primary"
+      <v-btn  v-else
+        color="deep-purple accent-2"
         dark
         @click="auth"
       >ログアウト</v-btn>
-    </div>
+    </v-app-bar>
   </div>
+
 </template>
 
 <script>

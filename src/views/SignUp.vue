@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header :parentData="sendFlag"/>
     <v-card elevation="1"  width="40%" class="mx-auto mt-12">
       <v-row justify="center">
         <v-card-title>
@@ -10,8 +10,8 @@
       <v-card-text>
         <v-form>
           
-          <!-- <v-file-input name="image" @change="fileSelected" accept="image/png, image/jpeg" /> -->
-          <input type="file" v-on:change="fileSelected">
+          <v-file-input type="file" name="image" @change="fileSelected" />
+          <!-- <input type="file" @change="fileSelected"> -->
           <v-text-field prepend-icon="mdi-account-circle" label="name" v-model="name" />
           <v-text-field prepend-icon="mdi-email" label="email" v-model="email" />
           <v-text-field prepend-icon="mdi-cellphone" label="tell" v-model="tell" />
@@ -44,7 +44,8 @@ export default {
       introducer: "",
       users: [],
       password: "",
-      fileInfo: ""
+      img: "",
+      sendFlag: true
     };
   },
   components: {
@@ -60,18 +61,23 @@ export default {
         .get('http://localhost:8000/api/user/all')
         .then((response) => {
           data.push(response.data);
-          // console.log(response);
-          // console.log(data);
       });
       this.users = data[0].data;
     },
-    fileSelected(event) {
-      this.fileInfo = event.target.files[0];
-      console.log(event.target.files[0]);
+    getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (error) => reject(error);
+      });
+    },
+    fileSelected(e) {
+      const images = e;
+      console.log(images);
+      this.getBase64(images).then((response) => this.img = response); 
     },
     auth() {
-      const formData = new FormData();
-      formData.append('file',this.fileInfo);
       axios
         .post('http://localhost:8000/api/register', {
           name: this.name,
@@ -81,8 +87,7 @@ export default {
           account: this.account,
           introducer: this.introducer,
           password: this.password,
-          image: this.image,
-          fileInfo: formData
+          img: this.img,
         })
         .then(response => {
           console.log(response);
@@ -107,7 +112,7 @@ export default {
 #header,
 .header-logo,
 .header-link {
-  background-color: gray;
+  /* background-color: gray; */
 }
 
 .header-logo img {

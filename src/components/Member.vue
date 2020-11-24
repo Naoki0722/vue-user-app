@@ -7,10 +7,10 @@
         <th>詳細</th>
       </tr>
       <tr v-for="(data,index) in tables" :key="index">
-        <td>{{data.id}}</td>
+        <td>{{data.subordinate_id}}</td>
         <td>{{data.name}}</td>
         <td>
-          <button @click="$router.push({ name: 'Detail', params: { id: data.id } })">詳細</button>
+          <button @click="$router.push({ name: 'Detail', params: { id: data.subordinate_id } })">詳細</button>
         </td>
       </tr>
     </table>
@@ -72,7 +72,14 @@ table {
 }
 
 .member-section button {
-  font-size: 20px;
+  border: 1px solid rgb(88, 134, 235);
+  background-color: rgb(195, 213, 252);
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  display: block;
+  padding: 10px 25px;
+  margin: 10px auto;
 }
 
 table th,

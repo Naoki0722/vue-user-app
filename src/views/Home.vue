@@ -3,7 +3,7 @@
     <Header :parentData="sendFlag"/>
     <div class="content">
       <div class="myprofile">
-        <img src="../assets/icon.png">
+        <img :src="image">
         <p>{{mydata}}</p>
         <button @click="$router.push({ name: 'Profile'})">詳細</button>
       </div>
@@ -19,6 +19,7 @@ export default {
   data() {
     return {
       mydata: this.$store.state.user.name,
+      image: this.$store.state.user.image_path,
       sendFlag: false,
     };
   },
