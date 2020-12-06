@@ -62,7 +62,7 @@ export default {
     edit() {
       if(!this.isActive) {
         axios
-          .put('http://localhost:8000/api/user', {
+          .put('https://shrouded-tundra-15009.herokuapp.com/api/user', {
             name: this.lists.name,
             user_id: this.lists.user_id,
             tell: this.lists.tell,
@@ -84,7 +84,7 @@ export default {
     },
     remove() {
       axios
-        .delete('http://localhost:8000/api/user', {
+        .delete('https://shrouded-tundra-15009.herokuapp.com/api/user', {
           data: {
           email: this.$store.state.user.email,
           id: this.$store.state.user.id,
@@ -98,7 +98,7 @@ export default {
         });
       this.$store.dispatch('logout');
       // axios
-      //   .delete('http://localhost:8000/api/user', {
+      //   .delete('https://shrouded-tundra-15009.herokuapp.com/api/user', {
       //       email: this.$store.state.user.email,
       //   })
       //   .then((response) => {
