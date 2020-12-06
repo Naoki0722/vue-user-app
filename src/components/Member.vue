@@ -7,37 +7,44 @@
         <th>詳細</th>
       </tr>
       <tr v-for="(data,index) in tables" :key="index">
-        <td>{{data.id}}</td>
+        <td>{{data.subordinate_id}}</td>
         <td>{{data.name}}</td>
         <td>
-          <button @click="$router.push({ name: 'Detail', params: { id: data.id } })">詳細</button>
+          <button @click="$router.push({ name: 'Detail', params: { id: data.subordinate_id } })">詳細</button>
         </td>
       </tr>
     </table>
+
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
+  props: ["id"],
   data() {
     return {
-      mydata: "松崎",
-      tables: [
-        {
-          id: 1,
-          name: "佐藤"
-        },
-        {
-          id: 2,
-          name: "田中"
-        },
-        {
-          id: 3,
-          name: "中野"
-        }
-      ]
+      tables: [],
     };
-  }
+  },
+  created() {
+    this.getUsers();
+  },
+  methods: {
+    async getUsers() {
+      let data = [];
+      await axios
+        .get(
+          "http://localhost:8000/api/user/person?id=" +
+            this.$store.state.user.id
+        )
+        .then((response) => {
+          data.push(response.data);
+          this.tables = data[0].data;
+          console.log(this.tables);
+        });
+    },
+  },
 };
 </script>
 
@@ -45,19 +52,34 @@ export default {
 .member-section {
   margin: 3% 5%;
   font-size: 20px;
-  width: 50%;
+  width: 60%;
 }
 
 table th,
 table td {
-  border: 1px solid black;
   padding: 10px;
   width: 20%;
   text-align: center;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+}
+
+table {
+  width: 80%;
+  margin: 0 auto;
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
 }
 
 .member-section button {
-  font-size: 20px;
+  border: 1px solid rgb(88, 134, 235);
+  background-color: rgb(195, 213, 252);
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  display: block;
+  padding: 10px 25px;
+  margin: 10px auto;
 }
 
 table th,

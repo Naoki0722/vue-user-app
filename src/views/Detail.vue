@@ -1,45 +1,73 @@
 <template>
-  <div class="detail">
-    <Member :id = "id"></Member>
-    <img src="../assets/icon.png">
-    <table>
-      <tr>
-        <th>名前</th>
-        <td>{{lists.name}}</td>
-      </tr>
-      <tr>
-        <th>ユーザーID</th>
-        <td>{{lists.id}}</td>
-      </tr>
-      <tr>
-        <th>電話番号</th>
-        <td>{{lists.tell}}</td>
-      </tr>
-      <tr>
-        <th>メールアドレス</th>
-        <td>{{lists.mail}}</td>
-      </tr>
-      <tr>
-        <th>SNSアカウント名</th>
-        <td>{{lists.sns}}</td>
-      </tr>
-    </table>
-    <button @click="$router.push('/home')">一覧へ戻る</button>
+  <div id="detail">
+    <Header :parentData="sendFlag"/>
+    <div class="detail">
+      <img :src="tables.image_path">
+      <table>
+        <tr>
+          <th>名前</th>
+          <td>{{tables.name}}</td>
+        </tr>
+        <tr>
+          <th>ユーザーID</th>
+          <td>{{tables.id}}</td>
+        </tr>
+        <tr>
+          <th>電話番号</th>
+          <td>{{tables.tell}}</td>
+        </tr>
+        <tr>
+          <th>メールアドレス</th>
+          <td>{{tables.email}}</td>
+        </tr>
+        <tr>
+          <th>SNSアカウント名</th>
+          <td>{{tables.account}}</td>
+        </tr>
+      </table>
+      <button @click="$router.push('/home')">一覧へ戻る</button>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import Header from "../components/Header"
 export default {
+  props: ["id"],
   data() {
     return {
-      lists: {
-          name: "佐藤",
-          id: "satou",
-          tell: "000-0000-0000",
-          mail: "test@test.com",
-          sns: "http://www.test.co.jp"
-      },
+      tables: [],
+      sendFlag: false,
     };
+  },
+  components: {
+    Header
+  },
+  created() {
+    this.getUsers();
+  },
+  methods: {
+    async getUsers() {
+      let data = [];
+      let tables =await axios.get('http://localhost:8000/api/user/all');
+      for (let i = 0; i < tables.data.data.length; i++) {
+        await axios
+          .get('http://localhost:8000/api/user/all')
+          .then((response) => {
+            if(this.$route.name === 'Detail') {
+            let id = response.data.data[i].id;
+              if(id == this.id) {
+                data.push(response.data.data[i]);
+                console.log(data);
+              }
+            }
+          });
+        
+      }        
+      this.tables = data[0];
+      console.log(this.tables);
+    }
   }
 };
 </script>
@@ -54,16 +82,28 @@ export default {
   width: 30%;
 }
 
+.detail button {
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
 table {
   width: 100%;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
 }
 
 table th {
   text-align: left;
 }
 
+table td {
+  width: 50%;
+}
+
 table th,table td {
-  border: 1px solid black;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
   padding: 10px;
 }
 
