@@ -18,6 +18,7 @@
           <v-text-field prepend-icon="mdi-account-circle" label="user_id" v-model="user_id" />
           <v-text-field prepend-icon="mdi-twitter" label="SNSアカウント" v-model="account" />
           <v-select prepend-icon="mdi-account" label="上司名" v-model="introducer" :items="users" item-text="name" item-value="id"/>
+          <v-select prepend-icon="mdi-account" label="直下の人" v-model="directly" :items="users" item-text="name" item-value="id"/>
           <v-text-field prepend-icon= "mdi-lock" type="password" label="パスワード" v-model="password"/>
           <v-row justify="center">
             <v-card-actions>
@@ -42,6 +43,7 @@ export default {
       user_id: "",
       account: "",
       introducer: "",
+      directly: "",
       users: [],
       password: "",
       img: "",
@@ -61,6 +63,7 @@ export default {
         .get('http://localhost:8000/api/user/all')
         .then((response) => {
           data.push(response.data);
+          console.log(response);
       });
       this.users = data[0].data;
     },
@@ -86,6 +89,7 @@ export default {
           user_id: this.user_id,
           account: this.account,
           introducer: this.introducer,
+          directly: this.directly,
           password: this.password,
           img: this.img,
         })

@@ -33,7 +33,6 @@
       <button v-if="isActive" @click="edit">編集</button>
       <button v-else @click="edit">完了</button>
       <button @click="remove">退会</button>
-      <v-dialog v-model="dialog"></v-dialog>
     </div>
   </div>
 </template>
@@ -88,6 +87,7 @@ export default {
         .delete('http://localhost:8000/api/user', {
           data: {
           email: this.$store.state.user.email,
+          id: this.$store.state.user.id,
           },
         })
         .then((response) => {
