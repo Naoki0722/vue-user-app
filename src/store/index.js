@@ -32,21 +32,15 @@ export default new Vuex.Store({
   },
   actions: {
     async login({ commit }, { email, password }) {
-      let responseLogin = await axios.post(
-        "https://shrouded-tundra-15009.herokuapp.com/api/login",
-        {
+      let responseLogin = await axios.post("http://localhost:8000/api/login", {
+        email: email,
+        password: password,
+      });
+      let responseUser = await axios.get("http://localhost:8000/api/user", {
+        params: {
           email: email,
-          password: password,
-        }
-      );
-      let responseUser = await axios.get(
-        "https://shrouded-tundra-15009.herokuapp.com/api/user",
-        {
-          params: {
-            email: email,
-          },
-        }
-      );
+        },
+      });
       console.log(responseUser.data.data[0]);
       commit("auth", responseLogin.data.auth);
       commit("user", responseUser.data.data[0]);
@@ -54,7 +48,7 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       axios
-        .post("https://shrouded-tundra-15009.herokuapp.com/api/logout", {
+        .post("http://localhost:8000/api/logout", {
           auth: this.state.auth,
         })
         .then((response) => {
