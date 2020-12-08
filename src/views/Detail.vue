@@ -50,10 +50,10 @@ export default {
   methods: {
     async getUsers() {
       let data = [];
-      let tables =await axios.get('http://localhost:8000/api/user/all');
+      let tables =await axios.get('https://shrouded-tundra-15009.herokuapp.com/api/user/all');
       for (let i = 0; i < tables.data.data.length; i++) {
         await axios
-          .get('http://localhost:8000/api/user/all')
+          .get('https://shrouded-tundra-15009.herokuapp.com/api/user/all')
           .then((response) => {
             if(this.$route.name === 'Detail') {
             let id = response.data.data[i].id;
