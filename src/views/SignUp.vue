@@ -60,7 +60,7 @@ export default {
     async getUsers() {
       let data = [];
       await axios
-        .get('https://warm-oasis-46014.herokuapp.com/api/user/all')
+        .get('https://shielded-earth-80257.herokuapp.com/api/user/all')
         .then((response) => {
           data.push(response.data);
           console.log(response);
@@ -82,7 +82,7 @@ export default {
     },
     auth() {
       axios
-        .post('https://warm-oasis-46014.herokuapp.com/api/register', {
+        .post('https://shielded-earth-80257.herokuapp.com/api/register', {
           name: this.name,
           email: this.email,
           tell: this.tell,
