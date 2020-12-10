@@ -35,7 +35,7 @@ export default {
       let data = [];
       await axios
         .get(
-          "https://mighty-meadow-44760.herokuapp.com/api/user/person?id=" +
+          "https://shielded-earth-80257.herokuapp.com/api/user/person?id=" +
             this.$store.state.user.id
         )
         .then((response) => {

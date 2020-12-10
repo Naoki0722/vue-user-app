@@ -62,7 +62,7 @@ export default {
     edit() {
       if(!this.isActive) {
         axios
-          .put('https://mighty-meadow-44760.herokuapp.com/api/user', {
+          .put('https://shielded-earth-80257.herokuapp.com/api/user', {
             name: this.lists.name,
             user_id: this.lists.user_id,
             tell: this.lists.tell,
@@ -84,7 +84,7 @@ export default {
     },
     remove() {
       axios
-        .delete('https://mighty-meadow-44760.herokuapp.com/api/user', {
+        .delete('https://shielded-earth-80257.herokuapp.com/api/user', {
           data: {
           email: this.$store.state.user.email,
           id: this.$store.state.user.id,
