@@ -60,7 +60,7 @@ export default {
     async getUsers() {
       let data = [];
       await axios
-        .get('https://shrouded-tundra-15009.herokuapp.com/api/user/all')
+        .get('https://mighty-meadow-44760.herokuapp.com/api/user/all')
         .then((response) => {
           data.push(response.data);
           console.log(response);
@@ -82,7 +82,7 @@ export default {
     },
     auth() {
       axios
-        .post('https://shrouded-tundra-15009.herokuapp.com/api/register', {
+        .post('https://mighty-meadow-44760.herokuapp.com//api/register', {
           name: this.name,
           email: this.email,
           tell: this.tell,
