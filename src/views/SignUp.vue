@@ -82,7 +82,7 @@ export default {
     },
     auth() {
       axios
-        .post('https://mighty-meadow-44760.herokuapp.com//api/register', {
+        .post('https://mighty-meadow-44760.herokuapp.com/api/register', {
           name: this.name,
           email: this.email,
           tell: this.tell,
