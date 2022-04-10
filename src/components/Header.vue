@@ -24,11 +24,9 @@
 
 <script>
 export default {
-  props: ["parentData"],
   data() {
     return {
       drawer: false,
-      group: null,
     };
   },
   methods: {

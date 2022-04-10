@@ -6,11 +6,14 @@ import router from '../router/index'
 
 Vue.use(Vuex);
 
+axios.defaults.withCredentials = true
+
 export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     auth: "",
     user: "",
+    loadingStatus: false
   },
   mutations: {
     auth(state, payload) {
@@ -28,23 +31,38 @@ export default new Vuex.Store({
       state.user.email = email;
       state.user.user_id = user_id;
       state.user.account = account;
+    },
+    loadingStatus(state,payload) {
+      state.loadingStatus = payload;
     }
   },
   actions: {
     async login({ commit }, { email, password }) {
-      let responseLogin = await axios.post("https://shielded-earth-80257.herokuapp.com/api/login", {
-        email: email,
-        password: password,
-      });
-      let responseUser = await axios.get("https://shielded-earth-80257.herokuapp.com/api/user", {
-        params: {
-          email: email,
-        },
-      });
-      console.log(responseUser.data.data[0]);
-      commit("auth", responseLogin.data.auth);
-      commit("user", responseUser.data.data[0]);
-      router.replace("/home");
+      console.log(commit)
+      commit("loadingStatus", true);
+      await axios
+        .get(`${process.env.VUE_APP_API_URL}/sanctum/csrf-cookie`)
+        .then(() => {
+          axios.post(`${process.env.VUE_APP_API_URL}/login`, {
+            email: email,
+            password: password,
+          })
+          .then((res) => {
+            console.log(res.data)
+              alert('ログイン成功しました')
+              commit("loadingStatus", false);
+              commit("auth", true);
+              commit("user", email);
+              router.replace("/home");
+          })
+          .catch((err) => {
+            console.log(err)
+            commit("loadingStatus", false);
+          })
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     },
     logout({ commit }) {
       axios
