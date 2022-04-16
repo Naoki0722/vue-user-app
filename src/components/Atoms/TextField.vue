@@ -3,7 +3,7 @@
     :prepend-icon="icon"
     :label="label"
     :type="type"
-    v-model="emailData"
+    v-model="inputData"
     class="py-5"
   />
 </template>
@@ -18,7 +18,7 @@ export default {
     inputValue: String,
   },
   computed: {
-    emailData: {
+    inputData: {
       get() {
         return this.inputValue
       },

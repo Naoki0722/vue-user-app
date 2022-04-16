@@ -1,7 +1,7 @@
 <template>
   <v-card
     elevation="1"
-    :width="$vuetify.breakpoint.xs ? '80%' : '50%'"
+    :width="$vuetify.breakpoint.xs ? '90%' : '50%'"
     class="mx-auto mt-12"
   >
     <v-row justify="center">
@@ -17,7 +17,7 @@
 
 
 <script>
-import LoginForm from './LoginForm';
+import LoginForm from '../Molcules/LoginForm';
 export default {
   props: ['title'],
   components: {

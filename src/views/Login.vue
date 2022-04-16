@@ -1,19 +1,19 @@
 <template>
   <div>
-    <div class="mx-auto overflow-hidden" height="100vh">
+    <div class="mx-auto">
       <Header />
-      <Card title="ログイン画面" />
+      <LoginCard title="ログイン画面" />
     </div>
   </div>
 </template>
 
 <script>
-import Header from '../components/Header';
-import Card from '../components/Card';
+import Header from '../components/Organisms/Header';
+import LoginCard from '../components/Organisms/LoginCard';
 export default {
   components: {
     Header,
-    Card
+    LoginCard
   }
 };
 </script>

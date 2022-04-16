@@ -56,7 +56,8 @@ export default new Vuex.Store({
               router.replace("/home");
           })
           .catch((err) => {
-            console.log(err)
+            console.log(err);
+            alert('ログインエラーが発生しました');
             commit("loadingStatus", false);
           })
         })
