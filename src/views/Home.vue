@@ -14,7 +14,7 @@
 
 <script>
 import Member from "../components/Member"
-import Header from "../components/Header"
+import Header from "../components/Organisms/Header"
 export default {
   data() {
     return {

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import Header from '../components/Header.vue'
+import Header from '../components/Organisms/Header.vue'
 import axios from 'axios'
 export default {
   data() {
