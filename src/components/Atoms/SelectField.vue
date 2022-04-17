@@ -1,23 +1,18 @@
 <template>
-  <v-text-field
+  <v-select
     :prepend-icon="icon"
     :label="label"
-    :type="inputType"
     v-model="inputData"
-    class="py-5"
+    :items="items"
+    item-text="name"
+    item-value="id"
   />
 </template>
 
 
 <script>
 export default {
-  props:{
-    icon: String,
-    label: String,
-    inputType: String,
-    inputValue: String,
-    type: String,
-  },
+  props:['icon', 'label', 'inputValue' , 'type' , 'items'],
   computed: {
     inputData: {
       get() {

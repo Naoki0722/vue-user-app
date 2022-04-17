@@ -13,6 +13,7 @@ export default new Vuex.Store({
   state: {
     auth: "",
     user: "",
+    id: "",
     loadingStatus: false
   },
   mutations: {
@@ -20,7 +21,8 @@ export default new Vuex.Store({
       state.auth = payload;
     },
     user(state, payload) {
-      state.user = payload;
+      state.user = payload.email;
+      state.id = payload.id;
     },
     logout(state, payload) {
       state.auth = payload;
@@ -38,7 +40,6 @@ export default new Vuex.Store({
   },
   actions: {
     async login({ commit }, { email, password }) {
-      console.log(commit)
       commit("loadingStatus", true);
       await axios
         .get(`${process.env.VUE_APP_API_URL}/sanctum/csrf-cookie`)
@@ -48,12 +49,11 @@ export default new Vuex.Store({
             password: password,
           })
           .then((res) => {
-            console.log(res.data)
               alert('ログイン成功しました')
               commit("loadingStatus", false);
               commit("auth", true);
-              commit("user", email);
-              router.replace("/home");
+              commit("user", {email: email, id: res.data.data});
+              router.replace("/");
           })
           .catch((err) => {
             console.log(err);
@@ -67,17 +67,17 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       axios
-        .post("https://shielded-earth-80257.herokuapp.com/api/logout", {
+        .post(`${process.env.VUE_APP_API_URL}/logout`, {
           auth: this.state.auth,
         })
         .then((response) => {
           console.log(response);
           commit("logout", response.data.auth);
-          router.replace("/");
+          alert('ログアウトしました')
+          router.replace("/login");
         })
         .catch((error) => {
           console.log(error);
-          alert.error;
         });
     },
     changeUser({ commit }, { name, tell, email, user_id, account }) {
