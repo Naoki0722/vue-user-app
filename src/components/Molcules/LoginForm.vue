@@ -1,24 +1,15 @@
 <template>
   <v-form>
-    <TextField icon='mdi-email' label='メールアドレス' :inputValue='email' @parentMethod="inputEmailValue" />
+    <TextField icon='mdi-email' label='メールアドレス' :inputValue='email' type='email' @parentMethod="inputText" />
     <p v-show="isInValidEmail" class="error">メールアドレスの形式で入力してください。</p>
-    <TextField icon='mdi-lock' label='パスワード' :inputValue='password' type="password" @parentMethod="inputPasswordValue"/>
+    <TextField icon='mdi-lock' label='パスワード' :inputValue='password' inputType="password" type='password' @parentMethod="inputText"/>
     <p v-show="isInValidPassword" class="error">パスワードは8文字以上で登録してください</p>
-    <v-row justify="center">
-      <v-card-actions>
-        <v-btn
-          x-large
-          class="success mt-10 mb-5 text-h6 font-weight-bold"
-          @click="auth"
-          :loading="loadingStatus"
-          >ログイン</v-btn
-        >
-      </v-card-actions>
-    </v-row>
+    <Button :loadingStatus='loadingStatus' @auth="auth" buttonText='ログイン' />
   </v-form>
 </template>
 
 <script>
+import Button from '../Atoms/Button';
 import TextField from '../Atoms/TextField';
 export default {
   data() {
@@ -30,14 +21,12 @@ export default {
     };
   },
   components: {
-    TextField
+    TextField,
+    Button
   },
   methods: {
-    inputEmailValue (email) {
-      this.email = email
-    },
-    inputPasswordValue (password) {
-      this.password = password
+    inputText (inputValue) {
+      this[inputValue.element] = inputValue.data
     },
     auth() {
       const reg = new RegExp(/^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/);

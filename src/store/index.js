@@ -38,7 +38,6 @@ export default new Vuex.Store({
   },
   actions: {
     async login({ commit }, { email, password }) {
-      console.log(commit)
       commit("loadingStatus", true);
       await axios
         .get(`${process.env.VUE_APP_API_URL}/sanctum/csrf-cookie`)
