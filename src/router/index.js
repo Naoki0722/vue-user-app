@@ -12,14 +12,14 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: "/",
-    name: "Login",
-    component: Login,
-  },
-  {
-    path: "/home",
     name: "Home",
     component: Home,
     meta: { requiresAuth: true },
+  },
+  {
+    path: "/login",
+    name: "Login",
+    component: Login
   },
   {
     path: "/signup",
@@ -48,7 +48,13 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth) && !store.state.auth ) {
+  const pathData = to.matched[0];
+  if (pathData.meta.requiresAuth && !store.state.auth) {
+    next({
+      path: "/login",
+      query: { redirect: to.fullPath },
+    });
+  } else if(pathData.path == '/login' && store.state.auth) {
     next({
       path: "/",
       query: { redirect: to.fullPath },

@@ -50,10 +50,10 @@ export default {
   methods: {
     async getUsers() {
       let data = [];
-      let tables =await axios.get('https://shielded-earth-80257.herokuapp.com/api/user/all');
+      let tables = await axios.get(`${process.env.VUE_APP_API_URL}/api/user/all`);
       for (let i = 0; i < tables.data.data.length; i++) {
         await axios
-          .get('https://shielded-earth-80257.herokuapp.com/api/user/all')
+          .get(`${process.env.VUE_APP_API_URL}/api/user/all`)
           .then((response) => {
             if(this.$route.name === 'Detail') {
             let id = response.data.data[i].id;
@@ -63,8 +63,7 @@ export default {
               }
             }
           });
-        
-      }        
+      }
       this.tables = data[0];
       console.log(this.tables);
     }

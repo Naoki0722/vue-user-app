@@ -4,14 +4,14 @@
     <v-card-text class="mb-8">
       <v-form>
         <v-file-input type="file" name="image" label="アイコン画像" @change="fileSelected" />
-        <TextField icon='mdi-account-circle' label='名前' type='name' :inputValue='name' @parentMethod="inputText" />
-        <TextField icon='mdi-email' label='メールアドレス' type='email' :inputValue='email' @parentMethod="inputText" />
-        <TextField icon='mdi-cellphone' label='電話番号' type='tell' :inputValue='tell' @parentMethod="inputText" />
-        <TextField icon='mdi-account-circle' label='アカウントID' type='user_id' :inputValue='user_id' @parentMethod="inputText" />
-        <TextField icon='mdi-twitter' label='SNSアカウント' type='account' :inputValue='account' @parentMethod="inputText" />
-        <SelectField icon='mdi-account' label='上司名' type='introducer' :inputValue='introducer' :items="users" @parentMethod="inputText"/>
-        <SelectField icon='mdi-account' label='直下の人' type='directly' :inputValue='directly' :items="users" @parentMethod="inputText"/>
-        <TextField icon='mdi-lock' label='パスワード' inputType="password" type='password' :inputValue='password' @parentMethod="inputText" />
+        <TextField icon='mdi-account-circle' label='名前' type='name' :inputValue='input.name' @parentMethod="inputText" />
+        <TextField icon='mdi-email' label='メールアドレス' type='email' :inputValue='input.email' @parentMethod="inputText" />
+        <TextField icon='mdi-cellphone' label='電話番号' type='tell' :inputValue='input.tell' @parentMethod="inputText" />
+        <TextField icon='mdi-account-circle' label='アカウントID' type='user_id' :inputValue='input.user_id' @parentMethod="inputText" />
+        <TextField icon='mdi-twitter' label='SNSアカウント' type='account' :inputValue='input.account' @parentMethod="inputText" />
+        <SelectField icon='mdi-account' label='上司名' type='introducer' :inputValue='input.introducer' :items="users" @parentMethod="inputText"/>
+        <SelectField icon='mdi-account' label='直下の人' type='directly' :inputValue='input.directly' :items="users" @parentMethod="inputText"/>
+        <TextField icon='mdi-lock' label='パスワード' inputType="password" type='password' :inputValue='input.password' @parentMethod="inputText" />
         <Button :loadingStatus='loadingStatus' @auth="auth" buttonText='新規登録' />
       </v-form>
     </v-card-text>
@@ -28,17 +28,19 @@ import Button from '../Atoms/Button';
 export default {
   data() {
     return {
-      name: "",
-      email: "",
-      tell: "",
-      user_id: "",
-      account: "",
-      introducer: "",
-      directly: "",
+      input: {
+        name: "",
+        email: "",
+        tell: "",
+        user_id: "",
+        account: "",
+        introducer: "",
+        directly: "",
+        password: "",
+        img: "",
+        message: '',
+      },
       users: [],
-      password: "",
-      img: "",
-      message: '',
       isLoading: false
     };
   },
@@ -54,14 +56,12 @@ export default {
       .get(`${process.env.VUE_APP_API_URL}/api/user/all`)
       .then((response) => {
         data.push(response.data);
-        console.log(response);
     });
     this.users = data[0].data;
-    console.log(this.users);
   },
   methods: {
     inputText (inputValue) {
-      this[inputValue.element] = inputValue.data
+      this.input[inputValue.element] = inputValue.data
     },
     getBase64(file) {
       return new Promise((resolve, reject) => {
@@ -73,27 +73,17 @@ export default {
     },
     fileSelected(e) {
       const images = e;
-      this.getBase64(images).then((response) => this.img = response);
+      this.getBase64(images).then((response) => this.input.img = response);
     },
     auth() {
       this.isLoading = true;
       axios
-        .post(`${process.env.VUE_APP_API_URL}/register`, {
-          name: this.name,
-          email: this.email,
-          tell: this.tell,
-          user_id: this.user_id,
-          account: this.account,
-          introducer: this.introducer,
-          directly: this.directly,
-          password: this.password,
-          img: this.img,
-        })
+        .post(`${process.env.VUE_APP_API_URL}/register`, this.input)
         .then(response => {
           console.log(response);
           this.isLoading = false;
           alert('新規登録完了しました');
-          this.$router.replace('/');
+          this.$router.replace('/login');
         })
         .catch(error => {
           console.error(error);

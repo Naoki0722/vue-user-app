@@ -10,7 +10,9 @@
         <td>{{data.subordinate_id}}</td>
         <td>{{data.name}}</td>
         <td>
-          <button @click="$router.push({ name: 'Detail', params: { id: data.subordinate_id } })">詳細</button>
+          <button @click="$router.push({ name: 'Detail', params: { id: data.subordinate_id } })">
+            詳細
+          </button>
         </td>
       </tr>
     </table>
@@ -34,11 +36,9 @@ export default {
     async getUsers() {
       let data = [];
       await axios
-        .get(
-          "https://shielded-earth-80257.herokuapp.com/api/user/person?id=" +
-            this.$store.state.user.id
-        )
+        .get(`${process.env.VUE_APP_API_URL}/api/user/person/${this.$store.state.id}`)
         .then((response) => {
+          console.log(response)
           data.push(response.data);
           this.tables = data[0].data;
           console.log(this.tables);
