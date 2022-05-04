@@ -12,8 +12,7 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     auth: "",
-    user: "",
-    id: "",
+    user: {},
     loadingStatus: false
   },
   mutations: {
@@ -21,8 +20,7 @@ export default new Vuex.Store({
       state.auth = payload;
     },
     user(state, payload) {
-      state.user = payload.email;
-      state.id = payload.id;
+      state.user = payload;
     },
     logout(state, payload) {
       state.auth = payload;
@@ -49,11 +47,11 @@ export default new Vuex.Store({
             password: password,
           })
           .then((res) => {
-              alert('ログイン成功しました')
-              commit("loadingStatus", false);
-              commit("auth", true);
-              commit("user", {email: email, id: res.data.data});
-              router.replace("/");
+            alert('ログイン成功しました')
+            commit("loadingStatus", false);
+            commit("auth", true);
+            commit("user", res.data.data);
+            router.replace("/");
           })
           .catch((err) => {
             console.log(err);
@@ -84,9 +82,9 @@ export default new Vuex.Store({
       commit("changeUserData",
         {
           name: name,
+          user_id: user_id,
           tell: tell,
           email: email,
-          user_id: user_id,
           account: account
         }
       );

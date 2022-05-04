@@ -23,28 +23,21 @@
 <script>
 import axios from 'axios'
 export default {
-  props: ["id"],
   data() {
     return {
       tables: [],
     };
   },
-  created() {
-    this.getUsers();
-  },
-  methods: {
-    async getUsers() {
-      let data = [];
-      await axios
-        .get(`${process.env.VUE_APP_API_URL}/api/user/person/${this.$store.state.id}`)
-        .then((response) => {
-          console.log(response)
-          data.push(response.data);
-          this.tables = data[0].data;
-          console.log(this.tables);
-        });
-    },
-  },
+  async mounted() {
+    // let data = [];
+    await axios
+      .get(`${process.env.VUE_APP_API_URL}/api/user/person/${this.$store.state.user.id}`)
+      .then((response) => {
+        response.data.data.map((member) => {
+          this.tables.push(member)
+        })
+      });
+  }
 };
 </script>
 

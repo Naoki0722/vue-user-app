@@ -3,7 +3,7 @@
     <TextField icon='mdi-email' label='メールアドレス' :inputValue='email' type='email' @parentMethod="inputText" />
     <p v-show="isInValidEmail" class="error">メールアドレスの形式で入力してください。</p>
     <TextField icon='mdi-lock' label='パスワード' :inputValue='password' inputType="password" type='password' @parentMethod="inputText"/>
-    <p v-show="isInValidPassword" class="error">パスワードは8文字以上で登録してください</p>
+    <p v-show="isInValidPassword" class="error">パスワードは8文字以上が必要です</p>
     <Button :loadingStatus='loadingStatus' @auth="auth" buttonText='ログイン' />
   </v-form>
 </template>
