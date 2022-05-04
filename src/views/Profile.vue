@@ -1,6 +1,6 @@
 <template>
   <div id="detail">
-    <Header :parentData="sendFlag"/>
+    <Header />
     <div class="detail">
       <img :src="lists.image">
       <table>
@@ -29,7 +29,7 @@
           <td v-else><input type="text" v-model="lists.account"></td>
         </tr>
       </table>
-      <button @click="$router.push('/home')">一覧へ戻る</button>
+      <button @click="$router.push('/')">一覧へ戻る</button>
       <button v-if="isActive" @click="edit">編集</button>
       <button v-else @click="edit">完了</button>
       <button @click="remove">退会</button>
@@ -46,13 +46,12 @@ export default {
       isActive: true,
       lists: {
           name: this.$store.state.user.name,
-          user_id: this.$store.state.user.user_id,
+          user_id: this.$store.state.user.id,
           tell: this.$store.state.user.tell,
           email: this.$store.state.user.email,
           account: this.$store.state.user.account,
           image: this.$store.state.user.image_path
-      },
-      sendFlag: false,
+      }
     };
   },
   components: {
@@ -62,7 +61,7 @@ export default {
     edit() {
       if(!this.isActive) {
         axios
-          .put('https://shielded-earth-80257.herokuapp.com/api/user', {
+          .put(`${process.env.VUE_APP_API_URL}/api/user`, {
             name: this.lists.name,
             user_id: this.lists.user_id,
             tell: this.lists.tell,
@@ -84,7 +83,7 @@ export default {
     },
     remove() {
       axios
-        .delete('https://shielded-earth-80257.herokuapp.com/api/user', {
+        .delete(`${process.env.VUE_APP_API_URL}/api/user`, {
           data: {
           email: this.$store.state.user.email,
           id: this.$store.state.user.id,

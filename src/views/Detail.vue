@@ -1,6 +1,6 @@
 <template>
   <div id="detail">
-    <Header :parentData="sendFlag"/>
+    <Header />
     <div class="detail">
       <img :src="tables.image_path">
       <table>
@@ -25,7 +25,7 @@
           <td>{{tables.account}}</td>
         </tr>
       </table>
-      <button @click="$router.push('/home')">一覧へ戻る</button>
+      <button @click="$router.push('/')">一覧へ戻る</button>
     </div>
   </div>
 </template>
@@ -37,36 +37,15 @@ export default {
   props: ["id"],
   data() {
     return {
-      tables: [],
-      sendFlag: false,
+      tables: {}
     };
   },
   components: {
     Header
   },
-  created() {
-    this.getUsers();
-  },
-  methods: {
-    async getUsers() {
-      let data = [];
-      let tables = await axios.get(`${process.env.VUE_APP_API_URL}/api/user/all`);
-      for (let i = 0; i < tables.data.data.length; i++) {
-        await axios
-          .get(`${process.env.VUE_APP_API_URL}/api/user/all`)
-          .then((response) => {
-            if(this.$route.name === 'Detail') {
-            let id = response.data.data[i].id;
-              if(id == this.id) {
-                data.push(response.data.data[i]);
-                console.log(data);
-              }
-            }
-          });
-      }
-      this.tables = data[0];
-      console.log(this.tables);
-    }
+  async mounted() {
+    let tables = await axios.get(`${process.env.VUE_APP_API_URL}/api/user/${this.id}`);
+    this.tables = tables.data.data;
   }
 };
 </script>
